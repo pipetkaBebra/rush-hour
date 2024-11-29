@@ -1,16 +1,16 @@
-# This is a sample Python script.
+from elements.Board import Board
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def run_game():
+    level_grid = Board.init_board('levels/level1.txt')
+    board = Board(level_grid)
+
+    print("Vehicles on the board:")
+    for vehicle_id, vehicle in board.cars.items():
+        print(f"Vehicle {vehicle_id}: {vehicle.positions}")
+
+    print("Game initialized!")
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    run_game()
