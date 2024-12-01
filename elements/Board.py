@@ -8,6 +8,7 @@ class Board:
         self.cars = self._parse_cars()
         self.grid_size = 6
 
+    #метод для парсингу даних з файлу, запис позицій машинок
     def _parse_cars(self):
         cars = {}
         for row_idx, row in enumerate(self.grid):
@@ -20,6 +21,7 @@ class Board:
 
     def is_valid_move(self, car, direction):
         dx, dy = 0, 0
+        #рух машинок за допомогою стрілочок відносно орієнтації машинок на полі (якщо машинка знаходиться горизонтально на полі, то рухатися вона теж може тільки по горизонталі)
         if direction == "up" and car.orientation == "vertical":
             dx = -1
         elif direction == "down" and car.orientation == "vertical":
@@ -29,15 +31,15 @@ class Board:
         elif direction == "right" and car.orientation == "horizontal":
             dy = 1
         else:
-            return False  # Забороняємо рух у неправильному напрямку
+            return False
 
         new_positions = [(x + dx, y + dy) for x, y in car.positions]
 
-        # Перевірка меж
+        #перевірка на межі (чи не виходить машинка за межі)
         if not all(0 <= x < len(self.grid) and 0 <= y < len(self.grid[0]) for x, y in new_positions):
             return False
 
-        # Перевірка перешкод
+        #перевірка на перешкоди (чи нема іншої машинки)
         for x, y in new_positions:
             if self.grid[x][y] != "." and self.grid[x][y] != car.name:
                 return False
@@ -55,18 +57,19 @@ class Board:
         elif direction == "right":
             dy = 1
 
-        # Очищення старих позицій
+        #очищення старих позицій
         for x, y in car.positions:
             self.grid[x][y] = "."
 
-        # Оновлення позицій
+        #оновлення позицій
         car.positions = [(x + dx, y + dy) for x, y in car.positions]
 
-        # Запис нових позицій
+        #запис нових позицій
         for x, y in car.positions:
             self.grid[x][y] = car.name
 
     @staticmethod
+    #зчитування даних з файлу
     def init_board(file):
         grid = []
         with open(file, 'r') as f:

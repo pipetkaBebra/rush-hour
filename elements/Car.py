@@ -4,6 +4,7 @@ class Car:
         self.name = name
         self.positions = []
 
+    #визначення орієнтації машинок на полі
     def add_position(self, x, y):
         self.positions.append((x, y))
         if len(self.positions) > 1:

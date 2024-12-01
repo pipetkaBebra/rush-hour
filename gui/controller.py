@@ -7,18 +7,18 @@ class RushHourGame:
         self.root = root
         self.root.title("Rush Hour")
 
-        # Завантаження рівня
-        self.board = Board(Board.init_board(level_file))  # Використання класу Board
+        #завантаження рівня
+        self.board = Board(Board.init_board(level_file))
 
-        # GUI
         self.gui = RushHourGUI(self.root, self.board, self.move_car)
 
-        # Зв'язування клавіш для руху
+        #зв'язування клавіш для руху
         self.root.bind("<Up>", lambda event: self.move_car("up"))
         self.root.bind("<Down>", lambda event: self.move_car("down"))
         self.root.bind("<Left>", lambda event: self.move_car("left"))
         self.root.bind("<Right>", lambda event: self.move_car("right"))
 
+    #логіка руху машинок, деякі обмеження для руху, оновлення поля, перевірка виграшу
     def move_car(self, direction):
         if self.gui.selected_car is None:
             print("No car selected!")
@@ -29,14 +29,13 @@ class RushHourGame:
             print("Invalid move!")
             return
 
-        # Оновлення позицій на дошці
         self.board.move_car(car, direction)
 
-        # Оновлення GUI
         self.gui.update_board()
 
         self.check_win()
 
+    #якщо машинка доходить до позиції [2,5] -> виграш
     def check_win(self):
         car = self.board.cars.get("A")
         if car and (2, 5) in car.positions:

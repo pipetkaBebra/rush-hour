@@ -15,6 +15,7 @@ class RushHourGUI:
         self.create_grid()
         self.update_board()
 
+    #створення сітки для поля
     def create_grid(self):
         for row in range(self.board.grid_size):
             for col in range(self.board.grid_size):
@@ -24,12 +25,12 @@ class RushHourGUI:
                 self.buttons[row][col] = btn
 
     def update_board(self):
-        # Очищення кнопок
+        #очищення кнопок
         for row in self.buttons:
             for btn in row:
                 btn.config(text="", bg="white")
 
-        # Відображення машин
+        #відображення машин (машини - це кнопки)
         for car in self.board.cars.values():
             for x, y in car.positions:
                 btn = self.buttons[x][y]
