@@ -3,8 +3,10 @@ from .Car import Car
 
 class Board:
     def __init__(self, grid):
+        self.gui = None
         self.grid = grid
         self.cars = self._parse_cars()
+        self.grid_size = 6
 
     def _parse_cars(self):
         cars = {}
@@ -18,14 +20,16 @@ class Board:
 
     def is_valid_move(self, car, direction):
         dx, dy = 0, 0
-        if direction == "up":
+        if direction == "up" and car.orientation == "vertical":
             dx = -1
-        elif direction == "down":
+        elif direction == "down" and car.orientation == "vertical":
             dx = 1
-        elif direction == "left":
+        elif direction == "left" and car.orientation == "horizontal":
             dy = -1
-        elif direction == "right":
+        elif direction == "right" and car.orientation == "horizontal":
             dy = 1
+        else:
+            return False  # Забороняємо рух у неправильному напрямку
 
         new_positions = [(x + dx, y + dy) for x, y in car.positions]
 
@@ -69,4 +73,3 @@ class Board:
             for line in f:
                 grid.append(line.strip().split())
         return grid
-

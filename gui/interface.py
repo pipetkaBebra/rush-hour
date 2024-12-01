@@ -33,7 +33,7 @@ class RushHourGUI:
         for car in self.board.cars.values():
             for x, y in car.positions:
                 btn = self.buttons[x][y]
-                btn.config(text=car.name, bg="blue" if self.selected_car != car.name else "red")
+                btn.config(text=car.name, bg="red" if car.name == "A" else "blue")
 
     def select_car(self, row, col):
         car_name = self.board.grid[row][col]

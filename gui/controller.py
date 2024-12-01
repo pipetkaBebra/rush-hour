@@ -1,5 +1,5 @@
-from interface import RushHourGUI
-from ..elements.Board import Board
+from .interface import RushHourGUI
+from elements.Board import Board
 
 
 class RushHourGame:
@@ -34,3 +34,11 @@ class RushHourGame:
 
         # Оновлення GUI
         self.gui.update_board()
+
+        self.check_win()
+
+    def check_win(self):
+        car = self.board.cars.get("A")
+        if car and (2, 5) in car.positions:
+            print("You win!")
+            self.root.quit()
