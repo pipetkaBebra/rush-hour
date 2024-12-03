@@ -1,0 +1,6 @@
+. K K L M M
+. E . L F J
+. E A A F J
+B B C . D J
+. . C . D .
+. . . . D .
