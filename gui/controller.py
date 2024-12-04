@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from elements.Board import Board
 from algorithms.dfs import RushHourSolverDFS  # Ваш клас RushHourSolver
@@ -7,13 +6,20 @@ from algorithms.dfs import RushHourSolverDFS  # Ваш клас RushHourSolver
 class RushHourGame:
     def __init__(self, root, level_file):
         self.root = root
+        self.level_file = level_file  # Збережемо шлях до файлу рівня
         self.board = Board(Board.init_board(level_file))
         self.canvas = tk.Canvas(root, width=400, height=400)
         self.canvas.pack()
 
-        # Додамо кнопку для автоматичного рішення гри
-        self.solve_button = tk.Button(root, text="Auto Solve", command=self.auto_solve)
-        self.solve_button.pack()
+        # Додамо кнопки
+        self.solve_button = tk.Button(root, text="DFS", command=self.auto_solve)
+        self.solve_button.pack(side=tk.LEFT)
+
+        self.restart_button = tk.Button(root, text="Restart", command=self.restart_game)
+        self.restart_button.pack(side=tk.LEFT)
+
+        self.a_star_button = tk.Button(root, text="A*", command=self.a_star_solve)
+        self.a_star_button.pack(side=tk.LEFT)
 
         self.selected_car = None
 
@@ -40,7 +46,9 @@ class RushHourGame:
                         (x1 + x2) // 2, (y1 + y2) // 2, text=cell, font=("Arial", 14)
                     )
                     # Додаємо обробник події для вибору машинки при натисканні
-                    self.canvas.tag_bind(rect, "<Button-1>", lambda event, car_name=cell: self.select_car(car_name))
+                    self.canvas.tag_bind(
+                        rect, "<Button-1>", lambda event, car_name=cell: self.select_car(car_name)
+                    )
 
     def update_board_view(self):
         """Оновлює візуальне представлення стану гри."""
@@ -88,11 +96,29 @@ class RushHourGame:
     def check_win(self):
         """Перевіряє, чи виграв користувач."""
         car = self.board.cars.get("A")
-        if car and (2, 5) in car.positions:
-            print("You win!")
-            self.root.quit()
+        if not car:
+            print("Car A not found!")
+            return
+
+        # Перевірка, чи машинка `A` досягла правого краю (наприклад, вихід на позиції (2, 5))
+        for x, y in car.positions:
+            if y == self.board.grid_size - 1:  # Правий край дошки
+                print("You win!")
+                self.root.quit()
+                return
 
     def select_car(self, car_name):
         """Вибір машинки для руху користувачем."""
         self.selected_car = car_name
         print(f"Selected car: {car_name}")
+
+    def restart_game(self):
+        """Перезапускає гру, скидаючи стан поля."""
+        print("Restarting the game...")
+        self.board = Board(Board.init_board(self.level_file))
+        self.selected_car = None
+        self.update_board_view()
+
+    def a_star_solve(self):
+        """Метод для майбутньої реалізації A*."""
+        print("A* solve is not implemented yet!")
