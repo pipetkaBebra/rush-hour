@@ -1,7 +1,8 @@
 import tkinter as tk
 from elements.Board import Board
-from algorithms.dfs import RushHourSolverDFS  # Ваш клас RushHourSolver
-
+from algorithms.dfs import RushHourSolverDFS
+from algorithms.a_star import A_star
+import threading
 
 class RushHourGame:
     def __init__(self, root, level_file):
@@ -111,5 +112,16 @@ class RushHourGame:
         self.update_board_view()
 
     def a_star_solve(self):
-        """Метод для реалізації A* у майбутньому."""
-        print("A* solve is not implemented yet!")
+        """Рішення задачі алгоритмом A*."""
+        def solve_and_animate():
+            print("Solving with A*...")
+            solver = A_star(self.board)
+            solution = solver.solve()
+            if solution:
+                print(f"A* Solution found in {len(solution)} steps.")
+                self.animate_solution(solution)
+            else:
+                print("No solution found with A*!")
+
+        # Виконуємо алгоритм в окремому потоці
+        threading.Thread(target=solve_and_animate).start()
